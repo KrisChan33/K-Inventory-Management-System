@@ -75,8 +75,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             
-            
-            
             ->plugin(
                 FilamentEditProfilePlugin::make()
                     ->slug('my-profile')
@@ -97,7 +95,7 @@ class AdminPanelProvider extends PanelProvider
                     ->shouldShowBrowserSessionsForm(
                         // fn() => auth()->user()->id === 1, //optional
                         //OR
-                        false //optional
+                        true //optional
                     )
                     ->shouldShowAvatarForm(
                         value: true,
