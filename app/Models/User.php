@@ -46,7 +46,6 @@ class User extends Authenticatable implements HasAvatar
     //     'email_verified_at' => 'datetime',
     //     'password' => 'hashed',
     //     'custom_fields' =>'array'
-
     // ];
 
     protected function casts(): array
