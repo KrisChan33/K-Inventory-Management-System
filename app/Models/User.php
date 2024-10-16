@@ -42,11 +42,21 @@ class User extends Authenticatable implements HasAvatar
      *
      * @var array<string, string>
      */
-    protected $casts = [
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    //     'password' => 'hashed',
+    //     'custom_fields' =>'array'
+
+    // ];
+
+    protected function casts(): array
+{
+    return [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'custom_fields' => 'array'
     ];
+}
 
     public function getFilamentAvatarUrl(): ?string
     {
