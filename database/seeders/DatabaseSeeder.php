@@ -15,12 +15,14 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'id' => 1,
             'name' => 'Super Admin',
+            'avatar_url' =>'',
             'email' => 'superadmin@gmail.com',
             'password' => bcrypt('123'),
         ]);
         \App\Models\User::factory()->create([
             'id' => 2,
             'name' => 'Test User',
+            'avatar_url' =>'',
             'email' => 'testuser@gmail.com',
             'password' => bcrypt('123'),
         ]);

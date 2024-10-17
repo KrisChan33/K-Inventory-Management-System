@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -47,7 +48,7 @@ class AdminPanelProvider extends PanelProvider
             ->defaultThemeMode(ThemeMode::Dark)
             ->font('poppins', '500')
             ->colors([
-                'primary' => Color::Zinc,
+                'primary' => Color::Green,
             ])
             ->maxContentWidth(MaxWidth::SevenExtraLarge)
 
@@ -74,39 +75,45 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            
-            ->plugin(
+            ->plugins([
+                //roles and permissions
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+
+
                 FilamentEditProfilePlugin::make()
-                    ->slug('my-profile')
-                    ->setTitle('My Profile')
-                    ->setNavigationLabel('My Profile')
-                    // ->setNavigationGroup('Group Profile')
-                    ->setIcon('heroicon-o-user')
-                    ->setSort(10)
-                    // ->canAccess(fn () => auth()->user()->id === 1)
-                    ->shouldRegisterNavigation(true)
-
-                    ->shouldShowDeleteAccountForm(true)
-
-                    ->shouldShowSanctumTokens(
-                        // condition: fn() => auth()->user()->id === 1, //optional
-                        permissions: ['custom', 'abilities', 'permissions'] //optional
-                    )
-                    ->shouldShowBrowserSessionsForm(
-                        // fn() => auth()->user()->id === 1, //optional
-                        //OR
-                        true //optional
-                    )
-                    ->shouldShowAvatarForm(
-                        value: true,
-                        directory: 'avatars', // image will be stored in 'storage/app/public/avatars
-                        rules: 'mimes:jpeg,png|max:1024' //only accept jpeg and png files with a maximum size of 1MB
-                    )
-
+                ->slug('my-profile')
+                ->setTitle('My Profile')
+                ->setNavigationLabel('My Profile')
+                // ->setNavigationGroup('Group Profile')
+                ->setIcon('heroicon-o-user')
+                ->setSort(10)
+                // ->canAccess(fn () => auth()->user()->id === 1)
+                ->shouldRegisterNavigation(true)
+                ->shouldShowDeleteAccountForm(true)
+                ->shouldShowSanctumTokens(
+                    // condition: fn() => auth()->user()->id === 1, //optional
+                    permissions: ['custom', 'abilities', 'permissions'] //optional
+                )
+                ->shouldShowBrowserSessionsForm(
+                    // fn() => auth()->user()->id === 1, //optional
+                    //OR
+                    true //optional
+                )
+                ->shouldShowAvatarForm(
+                    value: true,
+                    directory: 'avatars', // image will be stored in 'storage/app/public/avatars
+                    rules: 'mimes:jpeg,png|max:1024' //only accept jpeg and png files with a maximum size of 1MB
+                ),
                     // ->customProfileComponents([
-                    //     \App\Livewire\CustomProfileComponent::class,
-                    // ])
-            )
+                //     \App\Livewire\CustomProfileComponent::class,
+                // ])
+            ])
+
+
+
+
+
+
             ->userMenuItems([
                 'profile' => MenuItem::make()
                     ->label(fn() => auth()->user()->name)
@@ -117,15 +124,9 @@ class AdminPanelProvider extends PanelProvider
                     //     return auth()->user()->company()->exists();
                     // }),
             ])
-            
-            
-            
-            
-            
-            
-            
-            
-            
             ;
+   
     }
+
+
 }
