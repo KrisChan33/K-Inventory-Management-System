@@ -14,10 +14,11 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Stephenjude\FilamentTwoFactorAuthentication\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements  FilamentUser, HasAvatar
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPanelShield ;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPanelShield, TwoFactorAuthenticatable;
     /**
      * The attributes that are mass assignable.
      *
@@ -86,5 +87,5 @@ class User extends Authenticatable implements  FilamentUser, HasAvatar
         //// you can also use this code to access the panel by role
         return $this->hasRole(config('filament-shield.super_admin.name')) || $this->hasRole(config('filament-shield.panel_user.name'))
             && str_ends_with($this->email, '@gmail.com');
-}
+    }
 }
