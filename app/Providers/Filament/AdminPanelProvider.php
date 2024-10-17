@@ -23,6 +23,8 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+use Stephenjude\FilamentTwoFactorAuthentication\TwoFactorAuthenticationPlugin;
+
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -78,7 +80,12 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 //roles and permissions
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
-
+                //2FA Feature
+                TwoFactorAuthenticationPlugin::make()
+                ->addTwoFactorMenuItem() // Add 2FA settings to user menu items
+                ->enforceTwoFactorSetup(
+                    true,ADASDASDAS UNAHIN MO TO NGAYON
+                ), // Enforce 2FA setup for all users
 
                 FilamentEditProfilePlugin::make()
                 ->slug('my-profile')
@@ -107,7 +114,9 @@ class AdminPanelProvider extends PanelProvider
                     // ->customProfileComponents([
                 //     \App\Livewire\CustomProfileComponent::class,
                 // ])
-            ])
+       
+            
+                ])
 
 
 
