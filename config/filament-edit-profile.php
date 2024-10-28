@@ -1,108 +1,56 @@
 <?php
 
-
- 
 return [
-    'show_custom_fields' => true,
-    
+'show_custom_fields' => true,
     'custom_fields' => [
-        'Github Account' => [
+        'First Name' => [
             'type' => 'text',
-            'label' => 'Github Username',
-            'placeholder' => 'Example123',
-            'required' => false,
-            'rules' => 'max:255',
+            'label' => 'First Name',
+            'placeholder' => '',
+            'required' => true,
+            'rules' => 'required|string|max:255',
         ],
-        'Twitter Account' => [
-            'type' => 'text',
-            'label' => 'Twitter Username',
-            'placeholder' => 'username',
-            'required' => false,
-            'rules' => 'max:255',
+        'Middle Initial' => [
+            'type' => 'password',
+            'label' => 'Middile Initial',
+            'placeholder' => '',
+            'required' => true,
+            'rules' => 'required|string|max:255',
         ],
-        'Facebook Account' => [
-            'type' => 'text',
-            'label' => 'Facebook Username',
-            'placeholder' => 'username',
-            'required' => false,
-            'rules' => 'max:255',
+        'Last Name' => [
+            'type' => 'password',
+            'label' => 'Last Name',
+            'placeholder' => '',
+            'required' => true,
+            'rules' => 'required|string|max:255',
         ],
-        'Instagram Account' => [
-            'type' => 'text',
-            'label' => 'Instagram Username',
-            'placeholder' => 'username',
-            'required' => false,
-            'rules' => 'max:255',
+        'Gender' => [
+            'type' => 'select',
+            'label' => 'Gender',
+            'placeholder' => 'Select',
+            'required' => true,
+            'options' => [
+                'Male' => 'Male',
+                'Female' => 'Female',
+            ],
         ],
-        'LinkedIn Account' => [
-            'type' => 'text',
-            'label' => 'LinkedIn Username',
-            'placeholder' => 'Example-123',
-            'required' => false,
-            'rules' => 'max:255',
+        'About Your Self' => [
+            'type' =>'textarea',
+            'label' => 'About Your Self',
+            'placeholder' => '',
+            'rows' => '3',
+            'required' => true,
         ],
-        'Youtube Account' => [
-            'type' => 'text',
-            'label' => 'Youtube Username',
-            'placeholder' => 'Example123',
-            'required' => false,
-            'rules' => 'max:255',
+        'Date of Birth' => [
+            'type' => 'datetime',
+            'placeholder' => '',
+            'label' => 'Date of Birth',
+            'seconds' => false,
         ],
-        'Tiktok Account' =>[
-            'type' => 'text',
-            'label' => 'Tiktok Username',
-            'placeholder' => 'username',
-            'required' => false,
-            'rules' => 'max:255',
+        'Agree in Confidentiality' => [
+            'type' => 'boolean',
+            'placeholder' => '',
+            'label' => 'Agree in Confidentiality',
         ],
-       
-
-       
     ]
-
-    //another custom field
-
-    //     'custom_field_1' => [
-    //         'type' => 'text',
-    //         'label' => 'Custom Textfield 1',
-    //         'placeholder' => 'Custom Field 1',
-    //         'required' => false,
-    //         'rules' => 'max:255',
-    //     ],
-    //     'custom_field_2' => [
-    //         'type' => 'password',
-    //         'label' => 'Custom Password field 2',
-    //         'placeholder' => 'Custom Password Field 2',
-    //         'required' => false,
-    //         'rules' => 'max:255',
-    //     ],
-    //     'custom_field_3' => [
-    //         'type' => 'select',
-    //         'label' => 'Custom Select 3',
-    //         'placeholder' => 'Select',
-    //         'required' => false,
-    //         'options' => [
-    //             'option_1' => 'Option 1',
-    //             'option_2' => 'Option 2',
-    //             'option_3' => 'Option 3',
-    //         ],
-    //     ],
-    //     'custom_field_4' => [
-    //         'type' =>'textarea',
-    //         'label' => 'Custom Textarea 4',
-    //         'placeholder' => 'Textarea',
-    //         'rows' => '3',
-    //         'required' => false,
-    //     ],
-    //     'custom_field_5' => [
-    //         'type' => 'datetime',
-    //         'label' => 'Custom Datetime 5',
-    //         'placeholder' => 'Datetime',
-    //         'seconds' => false,
-    //     ],
-    //     'custom_field_6' => [
-    //         'type' => 'boolean',
-    //         'label' => 'Custom Boolean 6',
-    //         'placeholder' => 'Boolean'
-    //     ],
 ];
