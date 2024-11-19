@@ -84,7 +84,7 @@ class AdminPanelProvider extends PanelProvider
                 TwoFactorAuthenticationPlugin::make()
                 ->addTwoFactorMenuItem() // Add 2FA settings to user menu items
                 ->enforceTwoFactorSetup(
-                    true,ADASDASDAS UNAHIN MO TO NGAYON
+                    true,
                 ), // Enforce 2FA setup for all users
 
                 FilamentEditProfilePlugin::make()
