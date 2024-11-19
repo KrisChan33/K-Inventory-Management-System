@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
             'id' => 2,
             'name' => 'Test User',
             'avatar_url' =>'',
-            'email' => 'testuser@gmail.com',
+            'email' => 'employee@gmail.com',
             'password' => bcrypt('123'),
         ]);
-        \App\Models\User::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
 
     }
 }
