@@ -1,64 +1,74 @@
 <?php
 
-
- 
 return [
     'show_custom_fields' => true,
-    
+
     'custom_fields' => [
-        'Github Account' => [
+        'FirstName' => [
             'type' => 'text',
-            'label' => 'Github Username',
-            'placeholder' => 'Example123',
-            'required' => false,
+            'label' => 'First Name',
+            'placeholder' => 'your first name',
+            'required' => true,
             'rules' => 'max:255',
         ],
-        'Twitter Account' => [
+        'MiddleName' => [
             'type' => 'text',
-            'label' => 'Twitter Username',
-            'placeholder' => 'username',
-            'required' => false,
+            'label' => 'Middle Name',
+            'placeholder' => 'your middle name',
+            'required' => true,
             'rules' => 'max:255',
         ],
-        'Facebook Account' => [
+        'LastName' => [
             'type' => 'text',
-            'label' => 'Facebook Username',
-            'placeholder' => 'username',
-            'required' => false,
+            'label' => 'Last Name',
+            'placeholder' => 'your last name',
+            'required' => true,
             'rules' => 'max:255',
         ],
-        'Instagram Account' => [
-            'type' => 'text',
-            'label' => 'Instagram Username',
-            'placeholder' => 'username',
-            'required' => false,
-            'rules' => 'max:255',
+    
+        'Gender' => [
+            'type' => 'select',
+            'label' => 'Gender',
+            'placeholder' => 'Select',
+            'required' => true,
+            'options' => [
+                'Male' => 'Male',
+                'Female' => 'Female',
+            ],
         ],
-        'LinkedIn Account' => [
-            'type' => 'text',
-            'label' => 'LinkedIn Username',
-            'placeholder' => 'Example-123',
-            'required' => false,
-            'rules' => 'max:255',
+        'AboutMe' => [
+            'type' =>'textarea',
+            'label' => 'About Me',
+            'placeholder' => 'about me',
+            'rows' => '3',
+            'required' => true,
         ],
-        'Youtube Account' => [
-            'type' => 'text',
-            'label' => 'Youtube Username',
-            'placeholder' => 'Example123',
-            'required' => false,
-            'rules' => 'max:255',
+        'BirthDate' => [
+            'type' => 'datetime',
+            'label' => 'Birth Date',
+            'placeholder' => 'Datetime',
+            'seconds' => true,
         ],
-        'Tiktok Account' =>[
-            'type' => 'text',
-            'label' => 'Tiktok Username',
-            'placeholder' => 'username',
-            'required' => false,
-            'rules' => 'max:255',
+        'Agreements' => [
+            'type' => 'boolean',
+            'label' => 'Agree in terms and conditions',
+            'placeholder' => 'Boolean',
+            'required' => true,
         ],
+      
+            //
+
+    ],
+    ];
+
+
+    // 'shouldShowAvatarForm' => true,
+    // return [
+    //     'disk' => 's3',
+    //     'visibility' => 'public',
+    // ];
        
 
-       
-    ]
 
     //another custom field
 
@@ -105,4 +115,4 @@ return [
     //         'label' => 'Custom Boolean 6',
     //         'placeholder' => 'Boolean'
     //     ],
-];
+// ];
