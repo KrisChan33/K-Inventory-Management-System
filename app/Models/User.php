@@ -61,7 +61,6 @@ class User extends Authenticatable implements  FilamentUser, HasAvatar
         'custom_fields' => 'array'
     ];
 }
-
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->avatar_url ? Storage::url("$this->avatar_url") : null;

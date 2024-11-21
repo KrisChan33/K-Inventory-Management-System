@@ -35,13 +35,12 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->registration()
-            ->brandName('K-Inventory-Management-Sys')
-
+            ->brandName('K Inventory Management Web App')
               //authentications
-              ->login()
-              ->registration()
+                ->login()
+                ->registration()
               // ->passwordReset()
-              ->emailVerification()
+                ->emailVerification()
             //   ->profile(EditProfile::class)//->profile(isSimple: false)
               //breadcrumbs navigation upper part of page that informs the user of their current location within the application
               // ->breadcrumbs(false);
@@ -84,9 +83,8 @@ class AdminPanelProvider extends PanelProvider
                 TwoFactorAuthenticationPlugin::make()
                 ->addTwoFactorMenuItem() // Add 2FA settings to user menu items
                 ->enforceTwoFactorSetup(
-                    true,ADASDASDAS UNAHIN MO TO NGAYON
+                    false,
                 ), // Enforce 2FA setup for all users
-
                 FilamentEditProfilePlugin::make()
                 ->slug('my-profile')
                 ->setTitle('My Profile')
@@ -114,15 +112,7 @@ class AdminPanelProvider extends PanelProvider
                     // ->customProfileComponents([
                 //     \App\Livewire\CustomProfileComponent::class,
                 // ])
-       
-            
                 ])
-
-
-
-
-
-
             ->userMenuItems([
                 'profile' => MenuItem::make()
                     ->label(fn() => auth()->user()->name)
