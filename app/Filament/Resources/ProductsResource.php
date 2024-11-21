@@ -7,6 +7,7 @@ use App\Filament\Resources\ProductsResource\RelationManagers;
 use App\Models\Products;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -22,6 +23,7 @@ class ProductsResource extends Resource
     protected static ?string $model = Products::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $label = 'Products Controller';
 
     public static function form(Form $form): Form
     {
@@ -43,15 +45,16 @@ class ProductsResource extends Resource
                         TextInput::make('stock_quantity')
                             ->label('Stock Quantity')
                             ->required(),
-                        // TextInput::make('category_id')
-                        //     ->label('Category ID')
-                        //     ->required(),
+                            Select::make('categories_id')
+                            ->relationship('category', 'name')
+                                ->label('Category ID')
+                                ->searchable()
+                                ->sortable(),
                         // TextInput::make('supplier_id')
                         //     ->label('Supplier ID')
                         //     ->required(),
                     ])->columns(2),
             ]);
-        
     }
     public static function table(Table $table): Table
     {
@@ -67,16 +70,18 @@ class ProductsResource extends Resource
                     ->sortable(),
                 TextColumn::make('price')
                     ->label('Price')
+                    ->icon('heroicon-o-banknotes')
+                    ->iconColor('primary')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('stock_quantity')
                     ->label('Stock Quantity')
                     ->searchable()
                     ->sortable(),
-                // TextColumn::make('category_id')
-                //     ->label('Category ID')
-                //     ->searchable()
-                //     ->sortable(),
+                TextColumn::make('category_id')
+                    ->label('Category ID')
+                    ->searchable()
+                    ->sortable(),
                 // TextColumn::make('supplier_id')
                 //     ->label('Supplier ID')
                 //     ->searchable()
