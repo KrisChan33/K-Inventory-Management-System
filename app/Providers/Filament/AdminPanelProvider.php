@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->registration()
-            ->brandName('K Inventory Management Web App')
+            ->brandName(' Inventory Management Web App')
               //authentications
                 ->login()
                 ->registration()

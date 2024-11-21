@@ -14,12 +14,12 @@ class Products extends Model
         'description',
         'price',
         'stock_quantity',
-        // 'category_id',
+        'categories_id',
         // 'supplier_id',
     ];
 
-    // public function category()
-    // {
-    //     return $this->belongsTo(Category::class);
-    // }
+    public function categories()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
