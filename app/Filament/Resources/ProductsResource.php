@@ -7,6 +7,7 @@ use App\Filament\Resources\ProductsResource\RelationManagers;
 use App\Models\Products;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -22,6 +23,7 @@ class ProductsResource extends Resource
     protected static ?string $model = Products::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $label = 'Products Controller';
 
     public static function form(Form $form): Form
     {
@@ -32,26 +34,28 @@ class ProductsResource extends Resource
                         TextInput::make('name')
                             ->label('Name')
                             ->required(),
+                        Select::make('category_id')
+                            ->relationship('category', 'name')
+                            ->label('Category')
+                            ->required(),
+                        Select::make('supplier_id')
+                            ->label('Supplier')
+                            ->relationship('supplier', 'name')
+                            ->required(),
                         TextInput::make('price')
                             ->label('Price')
-                            ->required(),
-                        Textarea::make('description')
-                            ->label('Description')
-                            ->cols(4)
-                            ->rows(4)
                             ->required(),
                         TextInput::make('stock_quantity')
                             ->label('Stock Quantity')
                             ->required(),
-                        // TextInput::make('category_id')
-                        //     ->label('Category ID')
-                        //     ->required(),
-                        // TextInput::make('supplier_id')
-                        //     ->label('Supplier ID')
-                        //     ->required(),
-                    ])->columns(2),
+                        Textarea::make('description')
+                            ->label('Description')
+                            ->columnSpanFull()
+                            ->rows(4)
+                            ->required(),
+                       
+                    ])->columns(4),
             ]);
-        
     }
     public static function table(Table $table): Table
     {
@@ -61,26 +65,30 @@ class ProductsResource extends Resource
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('description')
-                    ->label('Description')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('price')
                     ->label('Price')
+                    ->icon('heroicon-o-banknotes')
+                    ->iconColor('primary')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('stock_quantity')
                     ->label('Stock Quantity')
                     ->searchable()
                     ->sortable(),
-                // TextColumn::make('category_id')
-                //     ->label('Category ID')
-                //     ->searchable()
-                //     ->sortable(),
-                // TextColumn::make('supplier_id')
-                //     ->label('Supplier ID')
-                //     ->searchable()
-                //     ->sortable(),
+                TextColumn::make('category.name')
+                    ->label('Category')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('supplier.name')
+                    ->label('Supplier')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('description')
+                    ->label('Description')
+                    ->limit(25)
+                    ->searchable()
+                    ->sortable(),
+             
             ])
             ->filters([
                 //

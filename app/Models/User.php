@@ -59,7 +59,41 @@ class User extends Authenticatable implements  FilamentUser, HasAvatar
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'custom_fields' => 'array'
+        'custom_fields' => 'array'
     ];
+}
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->avatar_url ? Storage::url("$this->avatar_url") : null;
+    }
+
+    // User Authenticate valid and email @gmail only
+    public function canAccessPanel(Panel $panel): bool
+    {
+        //// if you have 2 or more panels you can use this code to access the specific panel.
+        // if ($panel->getId() ==='admin') {
+        //     return $this->hasRole(Utils::getSuperAdminName());
+        // }
+        // elseif ($panel->getId() ==='user') {
+        //     return $this->hasRole(config('filament-shield.name', 'panel_user'));
+        // }
+        // else{
+        //  return false;
+        //  }
+        
+        ////Original function in FilamentPHP
+        // return str_ends_with($this->email, '@gmail.com');// && $this->hasVerifiedEmail();
+        
+        //// you can also use this code to access the panel by role
+        return $this->hasRole(config('filament-shield.super_admin.name')) || $this->hasRole(config('filament-shield.panel_user.name'))
+            && str_ends_with($this->email, '@gmail.com');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Orders::class);
+    }
+    
 }
     public function getFilamentAvatarUrl(): ?string
     {

@@ -35,6 +35,21 @@ return [
                 'Male' => 'Male',
                 'Female' => 'Female',
             ],
+          
+        ],
+        'ContactNumber' => [
+            'type' => 'text',
+            'label' => 'Contact Number',
+            'placeholder' => 'your contact number',
+            'required' => true,
+            'rules' => 'max:255',
+        ],
+        'Address' => [
+            'type' => 'textarea',
+            'label' => 'Address',
+            'placeholder' => 'your address',
+            'rows' => '3',
+            'required' => true,
         ],
         'AboutMe' => [
             'type' =>'textarea',

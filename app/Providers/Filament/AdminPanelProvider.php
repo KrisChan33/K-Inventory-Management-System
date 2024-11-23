@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->registration()
-            ->brandName('K Inventory Management Web App')
+            ->brandName(' Inventory Management Web App')
               //authentications
                 ->login()
                 ->registration()
@@ -75,6 +75,59 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->plugins([
+                //roles and permissions
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+                //2FA Feature
+                TwoFactorAuthenticationPlugin::make()
+                ->addTwoFactorMenuItem() // Add 2FA settings to user menu items
+                ->enforceTwoFactorSetup(
+                    false,
+                ), // Enforce 2FA setup for all users
+                FilamentEditProfilePlugin::make()
+                ->slug('my-profile')
+                ->setTitle('My Profile')
+                ->setNavigationLabel('My Profile')
+                // ->setNavigationGroup('Group Profile')
+                ->setIcon('heroicon-o-user')
+                ->setSort(10)
+                // ->canAccess(fn () => auth()->user()->id === 1)
+                ->shouldRegisterNavigation(true)
+                ->shouldShowDeleteAccountForm(true)
+                // ->shouldShowSanctumTokens(
+                //     condition: fn() => auth()->user()->id == 1,//optional
+                //     permissions: ['custom', 'abilities', 'permissions'] //optional
+                // )
+                ->shouldShowBrowserSessionsForm(
+                    // fn() => auth()->user()->id === 1, //optional
+                    //OR
+                    true //optional
+                )
+                ->shouldShowAvatarForm(
+                    value: true,
+                    directory: 'avatars', // image will be stored in 'storage/app/public/avatars
+                    rules: 'mimes:jpeg,png|max:1024' //only accept jpeg and png files with a maximum size of 1MB
+                ),
+                    // ->customProfileComponents([
+                //     \App\Livewire\CustomProfileComponent::class,
+                // ])
+                ])
+            ->userMenuItems([
+                'profile' => MenuItem::make()
+                    ->label(fn() => auth()->user()->name)
+                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->icon('heroicon-m-user-circle')
+                    //If you are using tenancy need to check with the visible method where ->company() is the relation between the user and tenancy model as you called
+                    // ->visible(function (): bool {
+                    //     return auth()->user()->company()->exists();
+                    // }),
+            ])
+            ;
+   
+    }
+
+
             ])
             ->plugins([
                 //roles and permissions

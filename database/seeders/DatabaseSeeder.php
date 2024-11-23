@@ -21,11 +21,15 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\User::factory()->create([
             'id' => 2,
-            'name' => 'Test User',
+            'name' => 'Employee Test',
             'avatar_url' =>'',
             'email' => 'employee@gmail.com',
             'password' => bcrypt('123'),
         ]);
-        // \App\Models\User::factory(10)->create();
+
+
+        \App\Models\Category::factory(10)->create();
+        \App\Models\Suppliers::factory(10)->create();
+        \App\Models\Products::factory(10)->create();
     }
 }
