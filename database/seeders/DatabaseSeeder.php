@@ -12,9 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\User::factory(10)->create();
         
         \App\Models\User::factory()->create([
-            'name' => 'Super Admingit',
+            'name' => 'Super Admin',
             'email' => 'superadmin@gmail.com',
             'password' => bcrypt('123'),
         ]);
@@ -23,7 +24,5 @@ class DatabaseSeeder extends Seeder
             'email' => 'testuser@gmail.com',
             'password' => bcrypt('123'),
         ]);
-        \App\Models\User::factory(10)->create();
-
     }
 }
