@@ -6,6 +6,11 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
+<<<<<<< Updated upstream
+=======
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Group;
+>>>>>>> Stashed changes
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -27,6 +32,10 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
+<<<<<<< Updated upstream
+=======
+                Group::make([
+>>>>>>> Stashed changes
                 Section::make('Category Information')
                     ->schema([
                         TextInput::make('name')
@@ -36,6 +45,10 @@ class CategoryResource extends Resource
                             ->label('Description')
                             ->required(),
                     ])->columns(2),
+<<<<<<< Updated upstream
+=======
+                    ])->columns(2),
+>>>>>>> Stashed changes
             ]);
         }
 
@@ -48,6 +61,10 @@ class CategoryResource extends Resource
                     ->sortable(),
                 TextColumn::make('description')
                     ->searchable()
+<<<<<<< Updated upstream
+=======
+                    ->limit(25)
+>>>>>>> Stashed changes
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->searchable()

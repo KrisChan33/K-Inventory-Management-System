@@ -26,6 +26,6 @@ Route::get('register', function () {
     return redirect('register');
 })->name('register');
 
-Route::get('/home', function () {
-    return view('welcome');
-})->name('home');
+// Route::get('/home', function () {
+//     return view('welcome');
+// })->name('home');
