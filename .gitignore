@@ -18,6 +18,24 @@ yarn-error.log
 /.idea
 /.vscode
 
+# Laravel specific
+/storage/logs
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/views
+
+# Vite
+/vite.config.js
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Other IDEs
+/.project
+/.classpath
+/.settings/
+
 
 # composer
 composer.lock
