@@ -20,14 +20,5 @@ yarn-error.log
 
 
 # composer
-composer.phar
 composer.lock
 composer.json
-composer-setup.php
-composer-installer.php
-composer-installer
-composer.phar
-composer.phar.pubkey
-composer.phar.sig
-composer.phar.pubkey.sig
-composer.phar.pubkey
