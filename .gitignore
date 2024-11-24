@@ -22,3 +22,4 @@ yarn-error.log
 # composer
 composer.lock
 composer.json
+package.json
