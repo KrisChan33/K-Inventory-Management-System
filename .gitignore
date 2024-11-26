@@ -36,7 +36,6 @@ Thumbs.db
 /.classpath
 /.settings/
 
-
 # composer
 composer.lock
 composer.json
