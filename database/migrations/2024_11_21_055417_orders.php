@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('quantity');
+            $table->string('order_number');
             $table->decimal('total', 10, 2);
             $table->string('status'); // pending, processing, completed, cancelled
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

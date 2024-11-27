@@ -90,6 +90,6 @@ class User extends Authenticatable implements  FilamentUser, HasAvatar
 
     public function orders()
     {
-        return $this->hasMany(Orders::class);
+        return $this->hasMany(Order::class);
     }
 }

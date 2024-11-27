@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Products extends Model
+class Product extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'name',
         'description',
@@ -29,12 +28,11 @@ class Products extends Model
     }
     public function orders()
     {
-        return $this->belongsToMany(Orders::class, 'order_product')
-        ->withTimestamps();
+        return $this->belongsToMany(Order::class);
     }
 
-    public function OrderItems()
+    public function orderItems()
     {
-        return $this->hasMany(Orders_Product::class);
+        return $this->hasMany(OrderItem::class);
     }
 }
