@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Orders_Product;
+use App\Models\OrderItem;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class Orders_ProductPolicy
+class OrderItemPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class Orders_ProductPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_order::items');
+        return $user->can('view_any_order::item');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Orders_Product $ordersProduct): bool
+    public function view(User $user, OrderItem $orderItem): bool
     {
-        return $user->can('view_order::items');
+        return $user->can('view_order::item');
     }
 
     /**
@@ -31,23 +31,23 @@ class Orders_ProductPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_order::items');
+        return $user->can('create_order::item');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Orders_Product $ordersProduct): bool
+    public function update(User $user, OrderItem $orderItem): bool
     {
-        return $user->can('update_order::items');
+        return $user->can('update_order::item');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Orders_Product $ordersProduct): bool
+    public function delete(User $user, OrderItem $orderItem): bool
     {
-        return $user->can('delete_order::items');
+        return $user->can('delete_order::item');
     }
 
     /**
@@ -55,15 +55,15 @@ class Orders_ProductPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_order::items');
+        return $user->can('delete_any_order::item');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Orders_Product $ordersProduct): bool
+    public function forceDelete(User $user, OrderItem $orderItem): bool
     {
-        return $user->can('force_delete_order::items');
+        return $user->can('force_delete_order::item');
     }
 
     /**
@@ -71,15 +71,15 @@ class Orders_ProductPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_order::items');
+        return $user->can('force_delete_any_order::item');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Orders_Product $ordersProduct): bool
+    public function restore(User $user, OrderItem $orderItem): bool
     {
-        return $user->can('restore_order::items');
+        return $user->can('restore_order::item');
     }
 
     /**
@@ -87,15 +87,15 @@ class Orders_ProductPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_order::items');
+        return $user->can('restore_any_order::item');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Orders_Product $ordersProduct): bool
+    public function replicate(User $user, OrderItem $orderItem): bool
     {
-        return $user->can('replicate_order::items');
+        return $user->can('replicate_order::item');
     }
 
     /**
@@ -103,6 +103,6 @@ class Orders_ProductPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_order::items');
+        return $user->can('reorder_order::item');
     }
 }

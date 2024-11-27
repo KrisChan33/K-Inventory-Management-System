@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductsResource\Pages;
 use App\Filament\Resources\ProductsResource\RelationManagers;
+use App\Models\Product;
 use App\Models\Products;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductsResource extends Resource
 {
-    protected static ?string $model = Products::class;
+    protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $label = 'Products Controller';
@@ -54,7 +55,7 @@ class ProductsResource extends Resource
                             ->rows(4)
                             ->required(),
                        
-                    ])->columns(4),
+                    ])->columns(5),
             ]);
     }
     public static function table(Table $table): Table
