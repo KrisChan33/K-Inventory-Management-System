@@ -5,10 +5,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderItemResource\Pages;
 use App\Filament\Resources\OrderItemResource\RelationManagers;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -16,6 +20,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+use function Laravel\Prompts\select;
 
 class OrderItemResource extends Resource
 {
@@ -31,29 +37,23 @@ class OrderItemResource extends Resource
             ->schema([
                 Section::make('Orders Items Information')
                     ->schema([
-                        // 'order_id',
-                        // 'product_id',
-                        // 'quantity',
-                        // 'total',
-                        // 'status',
                         Select::make('order_id')
                             ->label('Order ID')
                             ->required()
-                            ->relationship('order', 'id'),
+                            ->relationship('order', 'order_number'),
                         Select::make('product_id')
                             ->label('Product ID')
                             ->required()
                             ->relationship('product', 'name'),
-                        TextInput::make('quantity')
-                            ->label('Quantity')
-                            ->required(),
                         TextInput::make('total')
-                            ->pluck('product', 'price' * 'quantity') 
+                            ->required()
+                            ->numeric()
                             ->label('Total')
                             ->required(),
                         Select::make('status')
                             ->label('Status')
                             ->required()
+                            ->default('Pending')
                             ->options([
                                 'Pending' => 'Pending',
                                 'Processing' => 'Processing',
@@ -61,7 +61,6 @@ class OrderItemResource extends Resource
                                 'Cancelled' => 'Cancelled',
                              ]),
                     ]),
-
             ]);
     }
 
@@ -69,11 +68,9 @@ class OrderItemResource extends Resource
     {
         return $table
             ->columns([
-               
                 TextColumn::make('order_id')
                     ->label('Order ID'),
                 TextColumn::make('product_id')
-
                     ->label('Product ID'),
                 TextColumn::make('quantity')
                     ->label('Quantity')

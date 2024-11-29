@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('quantity');
             $table->decimal('total', 10, 2);
-            $table->string('status'); // pending, processing, completed, cancelled
+            $table->string('status')->default('Pending'); // pending, processing, completed, cancelled
             $table->timestamps();
         });
     }
