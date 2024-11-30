@@ -16,6 +16,8 @@ use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Count;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -59,7 +61,7 @@ class OrderItemResource extends Resource
                                 'Processing' => 'Processing',
                                 'Completed' => 'Completed',
                                 'Cancelled' => 'Cancelled',
-                             ]),
+                                ]),
                     ]),
             ]);
     }
@@ -69,20 +71,31 @@ class OrderItemResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('order_id')
-                    ->label('Order ID'),
+                    ->label('Order')
+                    ->searchable()
+                    ->sortable()
+                    ->summarize(
+                        Sum::make()->label('Total Orders'),
+                    ),
                 TextColumn::make('product_id')
                     ->label('Product ID'),
                 TextColumn::make('quantity')
                     ->label('Quantity')
                     ->searchable()
-                    ->sortable(),
-                TextColumn::make('total')
-                    ->label('Total')
-                    ->searchable()
+                    ->summarize(
+                        Sum::make()->label('Total Quantity'),
+                    )
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Status')
                     ->searchable()
+                    ->sortable(),
+                TextColumn::make('total')
+                    ->label('Total')
+                    ->searchable()
+                    ->summarize(
+                        Sum::make()->money('php')->label('Total Amount'),
+                    )
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Order Date')
