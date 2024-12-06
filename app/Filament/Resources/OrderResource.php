@@ -17,6 +17,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -29,7 +30,10 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
     protected static ?string $label = "Orders Controllers";
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = "Controllers (Admin)";
+    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -59,7 +63,6 @@ class OrderResource extends Resource
         //             'Cancelled' => 'Cancelled',
         //         ]),
         // ]),
-        
 
         // 'user_id',
         // 'order_number',
@@ -79,10 +82,12 @@ class OrderResource extends Resource
                 ->label('User')
                 ->relationship('user', 'name')
                 ->required(),
-                // TextInput::make('total')
-                //     ->label('Total')
-                //     ->rules('numeric')
-                //     ->readOnly(),
+                TextInput::make('total')
+                    ->label('Total')
+                    ->rules('numeric')
+                    ->dehydrated()
+                    ->visibleOn(['edit'])
+                    ->disabled(),
                 Select::make('status')
                     ->label('Status')
                     ->default('Pending')
@@ -107,7 +112,6 @@ class OrderResource extends Resource
                         'undo',
                 ])
                     ->nullable(),
-
             ])->columns(2),
 
             Step::make('order_items')
@@ -119,12 +123,29 @@ class OrderResource extends Resource
                     Select::make('product_id')
                         ->label('Product')
                         ->relationship('product', 'name')
-                        ->required()
-                        ->afterStateUpdated(function (callable $get, callable $set) {
+                    ->live()
+                    ->required()
+                    ->afterStateUpdated(function (callable $get, callable $set) {
                             $product = Product::find($get('product_id'));
                             if ($product) {
-                                $set('price', $product->price);
-                                $set('total', $product->price * $get('quantity'));
+                                if ($product->stock_quantity > 0) {
+                                    $set('quantity', 1);
+                                    $set('total', $product->price * $get('quantity'));
+                                    $set('price', $product->price);
+                                    $set('status', 'Pending');
+                                }
+
+                                if ($product->stock_quantity == 0) {
+                                    $set('quantity', 0);
+                                    $set('status', 'Cancelled');
+                                    $set('total', 0.00);
+
+                                    Notification::make()
+                                    ->title('Product is out of stock')
+                                    ->body('Please select another product')
+                                    ->danger()
+                                    ->send();
+                                }
                             }
                         }),
                     TextInput::make('quantity')
@@ -133,15 +154,54 @@ class OrderResource extends Resource
                     ->rules('required', 'numeric')
                     ->required()
                     ->live()
+                    // ->beforeStateDehydrated(function (callable $get, callable $set) {
+                    //     $product = Product::find($get('product_id'));
+                    //     if ($product) {
+                    //         $set('total', $product->price * $get('quantity'));
+                    //     }
+                    // })
                     ->afterStateUpdated(function (callable $get, callable $set) {
                         $product = Product::find($get('product_id'));
-                        if ($product) {
-                            $set('total', $product->price * $get('quantity'));
+                        if ($product) { 
+
+                            if ($product->stock_quantity > 0) {
+                                $set('status', 'Pending');
+                                $set('price', $product->price);
+                                $set('total', $product->price * $get('quantity'));
+                            }
+                       
+                            if ($product->stock_quantity == 0) {
+                                $set('status', 'Cancelled');
+                                $set('total', 0.00);
+                                Notification::make()
+                                    ->title('Product is out of stock')
+                                    ->body('Please select another product')
+                                    ->danger()
+                                    ->send();
+                            }
+                            if ($product->stock_quantity < $get('quantity')) {
+                                $set('status', 'Cancelled');
+                                $set('quantity', $product->stock_quantity);
+                                $set('total', $product->price * $get('quantity'));
+                                // dd("Stock quantity is less than quantity");
+                                Notification::make()
+                                                        ->title('Product Quantity is only ' . $product->stock_quantity)
+                                                        ->body('Please reduce the quantity to ' . $product->stock_quantity)
+                                                        ->danger()
+                                                        ->send();
+                            }
                         }
-                    }),
+
+                    })
+                    ->disabled(fn (callable $get) => optional(Product::find($get('product_id')))->stock_quantity == 0)
+                    ->maxValue(fn (callable $get) => Product::where('id', $get('product_id'))->first()->stock_quantity) 
+                    ->dehydrated()
+                    ->minValue(1),
+
                     TextInput::make('total')
                         ->label('Total')
                         ->rules('required', 'numeric')
+                        ->live()
                         ->disabled()
                         ->dehydrated()
                         ->required(),
