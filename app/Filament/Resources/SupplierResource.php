@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Count;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -63,16 +64,22 @@ class SupplierResource extends Resource
                     ->label('Company/Business Name')
                     ->limit(18)
                     ->searchable()
-                    ->icon('heroicon-s-user')
+                    ->icon('heroicon-s-building-office')
                     ->iconColor('primary')
-                    ->sortable(),
+                    ->sortable()
+                    
+                    
+                    ,
                 TextColumn::make('contact_person')
                     ->label('Contact Person')
                     ->searchable()
                     ->limit(20)
                     ->icon('heroicon-s-user')
                     ->iconColor('primary')
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize(
+                        Count::make()->label('Total Suppliers')
+                    ),
                 TextColumn::make('contact_address')
                     ->label('Address')
                     ->searchable()
