@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Count;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -49,17 +50,25 @@ class CategoryResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
+                    ->label('Category Name')
                     ->sortable(),
                 TextColumn::make('description')
                     ->searchable()
                     ->limit(25)
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize(
+                        Count::make()
+                            ->label('Total Categories'),
+                    )->alignCenter()
+                    ,
                 TextColumn::make('created_at')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('updated_at')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+            
+                    ,
             ])
             ->filters([
                 //
