@@ -14,6 +14,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Count;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -65,7 +67,8 @@ class ProductsResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Name')
+                    ->label('Product Name')
+                    ->limit(20)
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('price')
@@ -73,22 +76,36 @@ class ProductsResource extends Resource
                     ->icon('heroicon-o-banknotes')
                     ->iconColor('primary')
                     ->searchable()
+                    ->summarize(
+                        Sum::make('PHP %s', 'price')
+                        ->label('Total Price'),
+                    )
                     ->sortable(),
                 TextColumn::make('stock_quantity')
-                    ->label('Stock Quantity')
+                    ->label('Stocks')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize(
+                        Count::make()
+                        ->label('No. of Products'),
+                    )
+                    ->alignCenter()
+                    ,
                 TextColumn::make('category.name')
                     ->label('Category')
                     ->searchable()
+                    ->limit(25)
                     ->sortable(),
                 TextColumn::make('supplier.name')
                     ->label('Supplier')
                     ->searchable()
+                    ->icon('heroicon-s-building-office')
+                    ->iconColor('primary')
+                    ->limit(25)
                     ->sortable(),
                 TextColumn::make('description')
                     ->label('Description')
-                    ->limit(25)
+                    ->limit(20)
                     ->searchable()
                     ->sortable(),
              
