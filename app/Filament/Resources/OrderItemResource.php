@@ -72,15 +72,14 @@ class OrderItemResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('order_id')
-                    ->label('Order')
+                TextColumn::make('order.order_number')
+                    ->label('Order No.')
                     ->searchable()
-                    ->sortable()
-                    ->summarize(
-                        Sum::make()->label('Total Orders'),
-                    ),
-                TextColumn::make('product_id')
-                    ->label('Product ID'),
+                    ->sortable(),
+                TextColumn::make('product.name')
+                    ->label('Product Name')
+                  
+                    ,
                 TextColumn::make('quantity')
                     ->label('Quantity')
                     ->searchable()
@@ -88,21 +87,28 @@ class OrderItemResource extends Resource
                         Sum::make()->label('Total Quantity'),
                     )
                     ->sortable(),
-                TextColumn::make('status')
-                    ->label('Status')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('total')
                     ->label('Total')
                     ->searchable()
+                    ->icon('heroicon-o-banknotes')
+                    ->iconColor('primary')
                     ->summarize(
                         Sum::make()->money('php')->label('Total Amount'),
                     )
                     ->sortable(),
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->searchable()
+                    ->sortable()
+                    ->summarize(
+                        Count::make()->label('Total Products'),
+                    )
+                   ,
                 TextColumn::make('created_at')
                     ->label('Order Date')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                  ,
             ])
             ->filters([
                 //

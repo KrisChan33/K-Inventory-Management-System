@@ -20,6 +20,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Count;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -36,6 +37,8 @@ class OrderResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $isEditing = isset($orderId) && !empty($orderId);
+
         return $form
             ->schema([
         // Section::make()->columns(2)->schema([
@@ -127,6 +130,7 @@ class OrderResource extends Resource
                     ->required()
                     ->afterStateUpdated(function (callable $get, callable $set) {
                             $product = Product::find($get('product_id'));
+
                             if ($product) {
                                 if ($product->stock_quantity > 0) {
                                     $set('quantity', 1);
@@ -151,25 +155,31 @@ class OrderResource extends Resource
                     TextInput::make('quantity')
                     ->label('Quantity')
                     ->integer()
-                    ->rules('required', 'numeric')
+                    ->rules('required', 'numeric',)
                     ->required()
                     ->live()
-                    // ->beforeStateDehydrated(function (callable $get, callable $set) {
-                    //     $product = Product::find($get('product_id'));
-                    //     if ($product) {
-                    //         $set('total', $product->price * $get('quantity'));
-                    //     }
-                    // })
+                    ->debounce(1000)
+                    ->disabled(fn (callable $get) => optional(Product::find($get('product_id')))->stock_quantity <= 0)
+                    // ->maxValue(fn (callable $get) => optional(Product::find($get('product_id')))->stock_quantity)
+                    // ->maxValue(fn (callable $get) => optional(Product::find($get('product_id')))->stock_quantity  )
+                    ->maxValue(function (callable $get) {
+                        $stockQuantity = optional(Product::find($get('product_id')))->stock_quantity;
+                        return $stockQuantity > 0 ? $stockQuantity : null;
+                    })
+                    ->minValue(1)   
+                    ->dehydrated()
                     ->afterStateUpdated(function (callable $get, callable $set) {
                         $product = Product::find($get('product_id'));
+
                         if ($product) { 
+                            $price = (float) $product->price;
+                            $quantity = (int) $get('quantity');
 
                             if ($product->stock_quantity > 0) {
                                 $set('status', 'Pending');
-                                $set('price', $product->price);
-                                $set('total', $product->price * $get('quantity'));
+                                $set('price', $price);
+                                $set('total', $price * $quantity);
                             }
-                       
                             if ($product->stock_quantity == 0) {
                                 $set('status', 'Cancelled');
                                 $set('total', 0.00);
@@ -179,32 +189,29 @@ class OrderResource extends Resource
                                     ->danger()
                                     ->send();
                             }
-                            if ($product->stock_quantity < $get('quantity')) {
+                            if ($product->stock_quantity < $quantity) {
                                 $set('status', 'Cancelled');
                                 $set('quantity', $product->stock_quantity);
-                                $set('total', $product->price * $get('quantity'));
-                                // dd("Stock quantity is less than quantity");
+                                $set('total', $price * $quantity);
                                 Notification::make()
-                                                        ->title('Product Quantity is only ' . $product->stock_quantity)
-                                                        ->body('Please reduce the quantity to ' . $product->stock_quantity)
-                                                        ->danger()
-                                                        ->send();
+                                    ->title('Product Quantity is only ' . $product->stock_quantity)
+                                    ->body('Please reduce the quantity to ' . $product->stock_quantity)
+                                    ->danger()
+                                    ->send();
                             }
                         }
 
                     })
-                    ->disabled(fn (callable $get) => optional(Product::find($get('product_id')))->stock_quantity == 0)
-                    ->maxValue(fn (callable $get) => Product::where('id', $get('product_id'))->first()->stock_quantity) 
-                    ->dehydrated()
-                    ->minValue(1),
-
+                 
+                    ,
                     TextInput::make('total')
                         ->label('Total')
                         ->rules('required', 'numeric')
-                        ->live()
                         ->disabled()
+                        ->live()
                         ->dehydrated()
                         ->required(),
+                        
                 ])->columns(2)->createItemButtonLabel('Add Order Item'),
         ])->columns(1),
 ])->columnSpanFull(),
@@ -216,22 +223,34 @@ class OrderResource extends Resource
         return $table
             ->columns([
                     TextColumn::make('user.name')
-                        ->label('User'),
+                        ->label('Customer Order')
+                        ->icon('heroicon-s-user')
+                        ->iconColor('primary')
+                        ,
                     // TextColumn::make('quantity')
                     //     ->label('Quantity')
                     //     ->searchable()
                     //     ->sortable(),
                     TextColumn::make('total')
-                        ->label('Total')
+                        ->label('Total Order')
                         ->searchable()
                         ->sortable()
+                        ->icon('heroicon-o-banknotes')
+                        ->iconColor('primary')
                         ->summarize(
-                            Sum::make()->money()
+                            Sum::make()->money('PHP')
+                            ->label('Total Amount Orders')
                         ),
                     TextColumn::make('status')
                         ->label('Status')
                         ->searchable()
-                        ->sortable(),
+                        ->sortable()
+                        ->summarize(
+                            Count::make()
+                            ->label('Total Orders')
+                        )
+                    ->alignCenter()
+                    ,
                     TextColumn::make('created_at')
                         ->label('Order Date')
                         ->searchable()
@@ -242,10 +261,12 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
