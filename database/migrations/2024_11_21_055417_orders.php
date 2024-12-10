@@ -15,10 +15,10 @@ return new class extends Migration
     {
 
         Schema::create('orders', function (Blueprint $table) {
-        $user = User::where('user_id');
+        // $user = User::where('customer_id');
 
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('customer_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('order_number');
             $table->decimal('total', 10, 2)->nullable();
             $table->string('status')->default('Pending'); // pending, processing, completed, cancelled
