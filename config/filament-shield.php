@@ -29,6 +29,11 @@ return [
         'name' => 'panel_user',
     ],
 
+    'staff' => [
+        'enabled' => true,
+        'name' => 'Staff',
+    ],
+
     'permission_prefixes' => [
         'resource' => [
             'view',

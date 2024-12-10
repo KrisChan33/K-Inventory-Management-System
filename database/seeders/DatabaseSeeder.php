@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\User::factory()->create([
             'id' => 2,
-            'name' => 'Employee Test',
+            'name' => 'Staff Test',
             'avatar_url' =>'',
-            'email' => 'employee@gmail.com',
+            'email' => 'Staff@gmail.com',
             'password' => bcrypt('123'),
         ]);
 
@@ -31,5 +31,6 @@ class DatabaseSeeder extends Seeder
         \App\Models\Category::factory(10)->create();
         \App\Models\Suppliers::factory(10)->create();
         \App\Models\Product::factory(10)->create();
+        \App\Models\Customer::factory(3)->create();
     }
 }
