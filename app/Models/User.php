@@ -84,12 +84,9 @@ class User extends Authenticatable implements  FilamentUser, HasAvatar
         // return str_ends_with($this->email, '@gmail.com');// && $this->hasVerifiedEmail();
         
         //// you can also use this code to access the panel by role
-        return $this->hasRole(config('filament-shield.super_admin.name')) || $this->hasRole(config('filament-shield.panel_user.name'))
+        return $this->hasRole(config('filament-shield.super_admin.name')) || $this->hasRole(config('filament-shield.panel_user.name')) || $this->hasRole(config('filament-shield.staff.name'))
             && str_ends_with($this->email, '@gmail.com');
     }
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
+  
 }
