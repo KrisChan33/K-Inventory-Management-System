@@ -14,6 +14,7 @@ class Order extends Model
         'customer_id',
         'order_number',
         'total',
+        'address',
         'status',
         'message_for_seller',
     ];  

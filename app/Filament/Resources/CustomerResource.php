@@ -7,6 +7,9 @@ use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
 use Faker\Provider\ar_EG\Text;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -21,72 +24,78 @@ class CustomerResource extends Resource
     protected static ?string $model = Customer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?string $navigationGroup = 'Controllers (Admin)';
+    protected static ?string $navigationGroup = 'Inventory Management';
 
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('first_name')
-                    ->label('First Name')
-                    ->required()
-                    ->placeholder('John'),
+                    Section::make([
+                        TextInput::make('name')
+                            ->label('Name')
+                            ->placeholder('John Doe')
+                            ->columnSpan(1)
+                            ->required(),
 
-                TextInput::make('last_name')
-                    ->label('Last Name')
-                    ->required()
-                    ->placeholder('Doe'),
+                        TextInput::make('email')
+                            ->label('Email')
+                            ->columnSpan(1)
+                            ->required()
+                            ->placeholder(''),
+                        
+                        TextInput::make('phone')
+                            ->label('Phone')
+                            ->columnSpan(1)
+                            ->required()
+                            ->placeholder('+1234567890'),
 
-                TextInput::make('email')
-                    ->label('Email')
-                    ->required()
-                    ->placeholder(''),
-                
-                TextInput::make('phone')
-                    ->label('Phone')
-                    ->required()
-                    ->placeholder('+1234567890'),
+                        TextInput::make('address')
+                            ->label('Address')
+                            ->required()
+                            ->columnSpan(3)
+                            ->placeholder('123 Main St'),
+                    ])->columns(6),
 
-                TextInput::make('address')
-                    ->label('Address')
-                    ->required()
-                    ->placeholder('123 Main St'),
-            ]);
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('first_name')
+                TextColumn::make('name')
                     ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('last_name')
-                    ->searchable()
+                    ->icon('heroicon-o-user')
+                    ->iconColor('primary')
                     ->sortable(),
 
                 TextColumn::make('email')
                     ->searchable()
+                    ->icon('heroicon-o-envelope')
+                    ->iconColor('primary')
                     ->sortable(),
 
                 TextColumn::make('phone')
                     ->searchable()
+                    ->icon('heroicon-o-phone')
+                    ->iconColor('primary')
                     ->sortable(),
 
                 TextColumn::make('address')
                     ->searchable()
+                    ->icon('heroicon-o-map-pin')
+                    ->iconColor('primary')
+                    ->limit(30)
                     ->sortable(),
             ])
-            
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\CreateAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
