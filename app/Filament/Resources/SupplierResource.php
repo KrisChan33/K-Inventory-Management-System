@@ -23,10 +23,10 @@ class SupplierResource extends Resource
 {
     protected static ?string $model = Suppliers::class;
 
-    protected static ?string $label = 'Suppliers Controller';
+    protected static ?string $label = 'Suppliers';
     
     protected static ?int $navigationSort= 4 ;
-    protected static ?string $navigationGroup = "Controllers (Admin)";
+    protected static ?string $navigationGroup = "Inventory Management";
     protected static ?string $navigationIcon = 'heroicon-o-truck';
 
 
