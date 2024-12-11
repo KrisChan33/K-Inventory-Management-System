@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-
         Schema::create('orders', function (Blueprint $table) {
         // $user = User::where('customer_id');
-
             $table->id();
             $table->foreignId('customer_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('order_number');
+            $table->string('address');
             $table->decimal('total', 10, 2)->nullable();
             $table->string('status')->default('Pending'); // pending, processing, completed, cancelled
             $table->text('message_for_seller')->nullable();
