@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->registration()
-            ->brandName(' Inventory Management Web App')
+            ->brandName('K-Inventory Management Web App')
               //authentications
                 ->login()
                 ->registration()
@@ -89,7 +89,7 @@ class AdminPanelProvider extends PanelProvider
                 ->slug('my-profile')
                 ->setTitle('My Profile')
                 ->setNavigationLabel('My Profile')
-                // ->setNavigationGroup('Group Profile')
+                ->setNavigationGroup('Profile')
                 ->setIcon('heroicon-o-user')
                 ->setSort(10)
                 // ->canAccess(fn () => auth()->user()->id === 1)
