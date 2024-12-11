@@ -29,9 +29,9 @@ class OrderItemResource extends Resource
 {
     protected static ?string $model = OrderItem::class;
 
-    protected static ?string $navigationParentItem = "Orders Controllers";
-    protected static ?string $label = "Orders Items Controller";
-    protected static ?string $navigationGroup = "Controllers (Admin)";
+    protected static ?string $navigationParentItem = "Orders";
+    protected static ?string $label = "Orders Items";
+    protected static ?string $navigationGroup = "Inventory Management";
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
 
