@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('address');
+            // $table->string('address');
             $table->integer('quantity');
             $table->decimal('total', 10, 2);
             $table->string('status')->default('Pending'); // pending, processing, completed, cancelled
