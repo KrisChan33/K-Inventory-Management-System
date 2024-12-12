@@ -41,22 +41,21 @@ class OrderItemResource extends Resource
             ->schema([
                 Section::make('Orders Items Information')
                     ->schema([
-                        Select::make('order_id')
+                            Select::make('order_id')
                             ->label('Order ID')
+                            ->disabled()
+                            ->dehydrated()
                             ->required()
                             ->relationship('order', 'order_number'),
                         Select::make('product_id')
-                            ->label('Product ID')
+                            ->label('Product ID') ->disabled()
+                            ->dehydrated()
                             ->required()
                             ->relationship('product', 'name'),
-                        TextInput::make('total')
-                            ->required()
-                            ->numeric()
-                            ->label('Total')
-                            ->required(),
-                        Select::make('status')
+
+                            Select::make('status')
                             ->label('Status')
-                            ->required()
+                            ->required() 
                             ->default('Pending')
                             ->options([
                                 'Pending' => 'Pending',
@@ -64,7 +63,16 @@ class OrderItemResource extends Resource
                                 'Completed' => 'Completed',
                                 'Cancelled' => 'Cancelled',
                                 ]),
-                    ]),
+                                
+                            TextInput::make('total')
+                            ->required()
+                            ->numeric()
+                            ->label('Total')
+                            ->disabled()
+                            ->dehydrated()
+                            ->required(),
+                      
+                    ])->columns(2),
             ]);
     }
 
@@ -134,7 +142,7 @@ class OrderItemResource extends Resource
     {
         return [
             'index' => Pages\ListOrderItems::route('/'),
-            'create' => Pages\CreateOrderItem::route('/create'),
+            // 'create' => Pages\CreateOrderItem::route('/create'),
             'edit' => Pages\EditOrderItem::route('/{record}/edit'),
         ];
     }
